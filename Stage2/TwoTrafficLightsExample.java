@@ -4,27 +4,42 @@
 */
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+
+import java.awt.event.ActionEvent;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.*;
 
-public class TwoTrafficLightsExample {  
+
+public class TwoTrafficLightsExample{ 
+   public static DetectorRequerimiento boton_plac;
    public static void main(String[] args) {
 //      MyOwnPanel myPanel = new MyOwnPanel();
       final MyOwnPanel myPanel = new MyOwnPanel();  // aragorn java compiler requires final for myPanel
-      CrosswalkTrafficLight mattaCrosswalk = new CrosswalkTrafficLight(6,4,525,475);
+      CrosswalkTrafficLight mattaCrosswalk = new CrosswalkTrafficLight(6,4,525,475);//ft,tt,or_x,or_y
       myPanel.addView(mattaCrosswalk);
       StreetTrafficLight mattaTrafficLight = new StreetTrafficLight(5,3,150,225);
       myPanel.addView(mattaTrafficLight);
       StreetTrafficLight PlaceresTrafficLight = new StreetTrafficLight(8,3,400,300);
       myPanel.addView(PlaceresTrafficLight);      
-      Controller controller = new Controller(mattaTrafficLight, mattaCrosswalk, PlaceresTrafficLight);
+      boton_plac= new DetectorRequerimiento();
+      Controller controller = new Controller(mattaTrafficLight, mattaCrosswalk, PlaceresTrafficLight,boton_plac);
             
       SwingUtilities.invokeLater(new Runnable() { // implementación Swing recomendada
          public void run() {
-            JButton boton_matta = new JButton("Peaton_Matta");
+            JButton boton_placeres = new JButton("Peaton_Matta");
             MyOwnFrame frame = new MyOwnFrame(myPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(boton_matta,BorderLayout.SOUTH);
+            frame.add(boton_placeres,BorderLayout.SOUTH); 
+            boton_placeres.addActionListener(new ActionListener(){
+               public void actionPerformed(ActionEvent e){
+                  boton_plac.setOn();
+               }
+            });
+
             frame.setVisible(true);
          } // run ends
       });
@@ -52,7 +67,7 @@ class MyOwnFrame extends JFrame  {
 /**
    A panel for a simple graphics object.
 */
-class MyOwnPanel extends JPanel  { 
+class MyOwnPanel extends JPanel{ 
    public MyOwnPanel() { 
       views = new ArrayList<View> ();
       setFocusable(true);
