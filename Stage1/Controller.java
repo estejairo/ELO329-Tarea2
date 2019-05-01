@@ -7,24 +7,21 @@ public class Controller {
    public void manageTraffic(){
       try {
           while (true) {
-            //Rutina Semaforo Mata
+            //Rutina Semaforo Mata y peatonal placeres
             matta.turnFollow();
+            pedestrian.turnFollow();
             Thread.sleep(matta.getFollowTime()*1000);
             matta.turnTransition();
+            pedestrian.turnTransition();
             Thread.sleep(matta.getTransitionTime()*1000);
             matta.turnStop();
+            pedestrian.turnStop();
             //Rutina Semaforo Placeres
             placeres.turnFollow();
             Thread.sleep(placeres.getFollowTime()*1000);
             placeres.turnTransition();
             Thread.sleep(placeres.getTransitionTime()*1000);
             placeres.turnStop();
-            //rutina Semaforo peatonal
-            pedestrian.turnFollow();
-            Thread.sleep(pedestrian.getFollowTime()*1000);
-            pedestrian.turnTransition();
-            Thread.sleep(pedestrian.getTransitionTime()*1000);
-            pedestrian.turnStop();
          }   
      } catch (InterruptedException e){
         System.out.println(e);
