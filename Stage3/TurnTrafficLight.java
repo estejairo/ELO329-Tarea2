@@ -16,7 +16,7 @@ public class TurnTrafficLight extends TrafficLight implements ActionListener, Vi
      // red_view = new Ellipse2D.Double(origen_x, origen_y, DIAMETER, DIAMETER);
       green_view = new Ellipse2D.Double(origen_x, origen_y, DIAMETER, DIAMETER);
      // cabinet = red_view.getFrame();
-      cabinet = cagreen_view.getFrame();
+      cabinet = green_view.getFrame();
 
       timer = new Timer(ON_OFF_TIME, this);
       green_on=false; 

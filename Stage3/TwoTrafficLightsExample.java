@@ -4,22 +4,26 @@
 */
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+
+import java.awt.event.ActionEvent;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.*;
 
 public class TwoTrafficLightsExample {  
    public static void main(String[] args) {
-//      MyOwnPanel myPanel = new MyOwnPanel();
+//    MyOwnPanel myPanel = new MyOwnPanel();
       final MyOwnPanel myPanel = new MyOwnPanel();  // aragorn java compiler requires final for myPanel
 
       //Semaforos peatonales
-      CrosswalkTrafficLight mattaCrosswalk = new CrosswalkTrafficLight(6,4,525,475);
-      myPanel.addView(mattaCrosswalk);
-      CrosswalkTrafficLight placeresCrosswalk = new CrosswalkTrafficLight(6,4, 1, 1);
+      CrosswalkTrafficLight placeresCrosswalk = new CrosswalkTrafficLight(6,4,525,475);
       myPanel.addView(placeresCrosswalk);
 
       //Semaforo de giro
-      TurnTrafficLight placeresTurnLight = new TurnTrafficLight(6,4,40,1);
+      TurnTrafficLight placeresTurnLight = new TurnTrafficLight(6,4,350,400);
       myPanel.addView(placeresTurnLight);
 
       //Semaforos vehiculares
@@ -28,18 +32,31 @@ public class TwoTrafficLightsExample {
       StreetTrafficLight PlaceresTrafficLight = new StreetTrafficLight(8,3,400,300);
       myPanel.addView(PlaceresTrafficLight);   
       
+      //Botones de requerimiento
+      final DetectorRequerimiento boton_plac= new DetectorRequerimiento();
+      final DetectorRequerimiento sensorInductivo = new DetectorRequerimiento();
 
 
-      Controller controller = new Controller(mattaTrafficLight, mattaCrosswalk, PlaceresTrafficLight);
+      Controller controller = new Controller(mattaTrafficLight, placeresCrosswalk, PlaceresTrafficLight, placeresTurnLight, boton_plac, sensorInductivo);
             
       SwingUtilities.invokeLater(new Runnable() { // implementación Swing recomendada
          public void run() {
-            JButton boton_matta = new JButton("Peaton_Matta");
+            JButton boton_placeres = new JButton("Peaton_Placeres");
             JButton giro_placeres = new JButton("Solicitud de Giro");
             MyOwnFrame frame = new MyOwnFrame(myPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(boton_matta,BorderLayout.SOUTH);
-            frame.add(giro_placeres,BorderLayout.SOUTH);
+            frame.add(boton_placeres,BorderLayout.SOUTH);
+            boton_placeres.addActionListener(new ActionListener(){
+               public void actionPerformed(ActionEvent e){
+                  boton_plac.setOn();
+               }
+            });
+            frame.add(giro_placeres,BorderLayout.NORTH);
+            giro_placeres.addActionListener(new ActionListener(){
+               public void actionPerformed(ActionEvent e){
+                  sensorInductivo.setOn();
+               }
+            });
             frame.setVisible(true);
          } // run ends
       });
