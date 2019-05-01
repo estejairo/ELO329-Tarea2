@@ -17,28 +17,41 @@ import java.util.*;
 public class TwoTrafficLightsExample{ 
    public static DetectorRequerimiento boton_plac;
    public static void main(String[] args) {
-//      MyOwnPanel myPanel = new MyOwnPanel();
       final MyOwnPanel myPanel = new MyOwnPanel();  // aragorn java compiler requires final for myPanel
+      final JPanel ButtonPanel = new JPanel();
+      ButtonPanel.setLayout(new BoxLayout(ButtonPanel,BoxLayout.X_AXIS));
+ 
       CrosswalkTrafficLight mattaCrosswalk = new CrosswalkTrafficLight(6,4,525,475);//ft,tt,or_x,or_y
       myPanel.addView(mattaCrosswalk);
       StreetTrafficLight mattaTrafficLight = new StreetTrafficLight(5,3,150,225);
       myPanel.addView(mattaTrafficLight);
       StreetTrafficLight PlaceresTrafficLight = new StreetTrafficLight(8,3,400,300);
-      myPanel.addView(PlaceresTrafficLight);      
-      boton_plac= new DetectorRequerimiento();
+      myPanel.addView(PlaceresTrafficLight);   
+
+      boton_plac= new PeatonalDetectorRequerimiento(50,50, ButtonPanel);
+
       Controller controller = new Controller(mattaTrafficLight, mattaCrosswalk, PlaceresTrafficLight,boton_plac);
             
       SwingUtilities.invokeLater(new Runnable() { // implementación Swing recomendada
          public void run() {
-            JButton boton_placeres = new JButton("Peaton_Matta");
+            /*
+            final ImageIcon offButton = new ImageIcon("OffButton.png");
+            final Image offButtonImage = offButton.getImage();
+            final ImageIcon onButton = new ImageIcon("OnButton.png");
+            final Image onButtonImage = onButton.getImage();
+            JButton boton_placeres = new JButton(offButton);
+            */
             MyOwnFrame frame = new MyOwnFrame(myPanel);
+            frame.add(ButtonPanel,BorderLayout.SOUTH);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            /*
             frame.add(boton_placeres,BorderLayout.SOUTH); 
             boton_placeres.addActionListener(new ActionListener(){
                public void actionPerformed(ActionEvent e){
                   boton_plac.setOn();
+                  offButton.setImage(onButtonImage);
                }
-            });
+            });*/
 
             frame.setVisible(true);
          } // run ends
@@ -55,13 +68,14 @@ class MyOwnFrame extends JFrame  {
    public MyOwnFrame(JPanel panel) {
       setTitle("Two Traffic Lights Example");
       setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
+      setResizable(false);
+      
       // add panel to frame
-      getContentPane().add(panel);
+      getContentPane().add(panel,BorderLayout.CENTER);
    }
 
    public static final int DEFAULT_WIDTH = 800;
-   public static final int DEFAULT_HEIGHT = 640;  
+   public static final int DEFAULT_HEIGHT = 840;  
 }
 
 /**
@@ -70,7 +84,7 @@ class MyOwnFrame extends JFrame  {
 class MyOwnPanel extends JPanel{ 
    public MyOwnPanel() { 
       views = new ArrayList<View> ();
-      setFocusable(true);
+      //setFocusable(true);
    }
    /** 
    For each call, the panel sets itself within
@@ -113,6 +127,9 @@ class MyOwnPanel extends JPanel{
          g2.setStroke(new BasicStroke(3));
          g2.drawLine(250+50*i, 475, 250+50*i, 575);
       }
+      revalidate();
+
    }
+   
    private ArrayList<View> views;
 }
