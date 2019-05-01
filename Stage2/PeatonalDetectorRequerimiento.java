@@ -26,10 +26,12 @@ public class PeatonalDetectorRequerimiento extends DetectorRequerimiento{
     public void setOn(){
         state = true;
         offButton.setImage(onButtonImage);
+        boton.repaint();
     }
     public void setOff(){
         state = false;
         offButton.setImage(offButtonImage);
+        boton.repaint();
     }
     ImageIcon offButton;
     ImageIcon onButton;

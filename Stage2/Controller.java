@@ -1,113 +1,85 @@
 public class Controller {
-   private TrafficLight pedestrian, matta,placeres;
+   private TrafficLight pedestrianPlaceres, matta,placeresvalpo;
    int currentGreenTime =1;
    int currentYellowTime = 1;
    DetectorRequerimiento botonplaceres;
    boolean serving_botonplaceres = false;
 
-   public Controller(TrafficLight m, TrafficLight p, TrafficLight plac, DetectorRequerimiento btnplac) {
-      matta = m;
-      pedestrian = p;
-      placeres = plac;
-      botonplaceres = btnplac;
+   public Controller(TrafficLight matta, TrafficLight pedestrianPlaceres, TrafficLight placeresvalpo, DetectorRequerimiento botonplaceres) {
+      this.matta = matta;
+      this.pedestrianPlaceres = pedestrianPlaceres;
+      this.placeresvalpo = placeresvalpo;
+      this.botonplaceres = botonplaceres;
       matta.turnFollow();
    }
    public void manageTraffic(){
-      int counter = 0;
-      while (true) {
-         //Semaforo Matta
-         //Verde
-         if((matta.getState()==TrafficLightState.FOLLOW)&&(currentGreenTime<matta.getFollowTime())){
+      while(true){
+         if ( (currentGreenTime < placeresvalpo.getFollowTime()) && (placeresvalpo.getState()==TrafficLightState.FOLLOW) ){
             if(botonplaceres.isOn()){
-               botonplaceres.setOff();
-               serving_botonplaceres = true;
-               currentGreenTime=matta.getFollowTime();
-               matta.turnTransition();
+               currentGreenTime = placeresvalpo.getFollowTime();
             }
             else{
-               placeres.turnStop();
-               currentGreenTime+=1;
+               currentGreenTime += 1; //se mantiene sin cambio de estado, avanzando en el tiempo
             }
+
          }
-         else if((matta.getState()==TrafficLightState.FOLLOW)&& (currentGreenTime>=matta.getFollowTime())){
-            matta.turnTransition();
+         else if ((currentGreenTime == placeresvalpo.getFollowTime())&&(placeresvalpo.getState()==TrafficLightState.FOLLOW)){
+            placeresvalpo.turnTransition();
             currentGreenTime = 1;
          }
-         //Amarillo
-         else if((matta.getState()==TrafficLightState.TRANSITION)&& currentYellowTime<matta.getTransitionTime()){
-            placeres.turnStop();
-            currentYellowTime+=1;
+         else if ((currentYellowTime < placeresvalpo.getTransitionTime())&&(placeresvalpo.getState()==TrafficLightState.TRANSITION)){
+            currentYellowTime += 1;
          }
-         //Amarillo a Rojo
-         else if((matta.getState()==TrafficLightState.TRANSITION)&& currentYellowTime>=matta.getTransitionTime()){
-            if(serving_botonplaceres){
-               matta.turnStop();
-               pedestrian.turnFollow();
-               currentYellowTime=1;
-            }
-            else{
-               currentYellowTime=1;
-               matta.turnStop();
-               placeres.turnFollow();
-            }
-         }
-         
-         //Peatonal
-         else if((pedestrian.getState()==TrafficLightState.FOLLOW)&&currentGreenTime<pedestrian.getFollowTime()){
-            placeres.turnStop();
-            matta.turnStop();
-            currentGreenTime+=1;
-         }
-         else if((pedestrian.getState()==TrafficLightState.FOLLOW)&&currentGreenTime>=pedestrian.getFollowTime()){
-            pedestrian.turnTransition();
-            currentGreenTime=1;
-         }
-         else if((pedestrian.getState()==TrafficLightState.TRANSITION)&&currentYellowTime<pedestrian.getTransitionTime()){
-            currentYellowTime+=1;
-         }
-         else if((pedestrian.getState()==TrafficLightState.TRANSITION)&&currentYellowTime>=pedestrian.getTransitionTime()){
-            pedestrian.turnStop();
-            currentYellowTime=1;
-            placeres.turnFollow();
-            serving_botonplaceres=false;
-         }
-         //Semaforo Placeres
-         else if((placeres.getState()==TrafficLightState.FOLLOW)&&(currentGreenTime<placeres.getFollowTime())&&(!serving_botonplaceres)){
-            if(botonplaceres.isOn()){
+         else if ((currentYellowTime == placeresvalpo.getTransitionTime())&&(placeresvalpo.getState()==TrafficLightState.TRANSITION)){
+            if ((botonplaceres.isOn())){
                botonplaceres.setOff();
                serving_botonplaceres = true;
-               currentGreenTime=placeres.getFollowTime();
-               placeres.turnTransition();
+               pedestrianPlaceres.turnFollow();
             }
-            else{
-               matta.turnStop();
-               currentGreenTime+=1;
-            }
-         }
-         else if((placeres.getState()==TrafficLightState.FOLLOW)&&(currentGreenTime>=placeres.getFollowTime())){
-            placeres.turnTransition();
-            currentGreenTime = 1;
-         }          
-         //Amarillo
-         else if((placeres.getState()==TrafficLightState.TRANSITION)&& (currentYellowTime<placeres.getTransitionTime())){
-            matta.turnStop();
-            currentYellowTime+=1;
-         }
-         //Amarillo a Rojo
-         else if((placeres.getState()==TrafficLightState.TRANSITION)&& currentYellowTime>=placeres.getTransitionTime()){
-            placeres.turnStop();
+            placeresvalpo.turnStop();
             matta.turnFollow();
+            currentYellowTime = 1;
+         }
+
+         ///el de matta
+         else if ((currentGreenTime < matta.getFollowTime()) && (matta.getState()==TrafficLightState.FOLLOW) ){
+            if (botonplaceres.isOn()){
+               botonplaceres.setOff();
+               serving_botonplaceres = true;
+               pedestrianPlaceres.turnFollow();
+               currentGreenTime += 1;
+            }
+            else{
+               currentGreenTime += 1;
+            }
+         }
+         else if ((currentGreenTime == matta.getFollowTime())&&(matta.getState()==TrafficLightState.FOLLOW)){
+            matta.turnTransition();
+            if (serving_botonplaceres){
+               pedestrianPlaceres.turnTransition();
+            }
+            currentGreenTime = 1;
+         }
+         else if ((currentYellowTime < matta.getTransitionTime())&&(matta.getState()==TrafficLightState.TRANSITION)){
+            currentYellowTime += 1;
+         }
+         else if ((currentYellowTime == matta.getTransitionTime())&&(matta.getState()==TrafficLightState.TRANSITION)){
+            pedestrianPlaceres.turnStop();
+            serving_botonplaceres = false;
+            matta.turnStop();
+            placeresvalpo.turnFollow();
+            currentYellowTime = 1;
          }
          else{
-            System.out.println("Caimos en un estado fantasma :C");
+            System.out.println("Caimos en un estado fantasma del controlador de semáforos!");
          }
+         //System.out.println(counter+"\t"+pedestrianPlaceres+"\t"+pedestrianMatta+"\t"+giro+"\t"+placeresvalpo+"\t"+placeresvalpo+"\t"+matta+"\t");      
          try{
             Thread.sleep(1000); //Si no hay requerimiento, se espera un segundo
-            counter = counter + 1;  //Se agrega el tiempo transcurrido al contador
-         }
-         catch(InterruptedException e){
+            //counter = counter + 1;  //Se agrega el tiempo transcurrido al contador
+         } catch(InterruptedException e){
             System.out.println(e);
-         }            
+        }    
       }
    }
 }

@@ -28,7 +28,7 @@ public class TwoTrafficLightsExample{
       StreetTrafficLight PlaceresTrafficLight = new StreetTrafficLight(8,3,400,300);
       myPanel.addView(PlaceresTrafficLight);   
 
-      boton_plac= new PeatonalDetectorRequerimiento(50,50, ButtonPanel);
+      boton_plac= new PeatonalDetectorRequerimiento(ButtonPanel);
 
       Controller controller = new Controller(mattaTrafficLight, mattaCrosswalk, PlaceresTrafficLight,boton_plac);
             
