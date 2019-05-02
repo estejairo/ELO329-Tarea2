@@ -4,12 +4,6 @@
 */
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-
-import java.awt.event.ActionEvent;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.*;
 
@@ -17,6 +11,8 @@ public class TestStage3 {
    public static void main(String[] args) {
 //    MyOwnPanel myPanel = new MyOwnPanel();
       final MyOwnPanel myPanel = new MyOwnPanel();  // aragorn java compiler requires final for myPanel
+      final JPanel ButtonPanel = new JPanel();
+      ButtonPanel.setLayout(new BoxLayout(ButtonPanel,BoxLayout.X_AXIS));
 
       //Semaforos peatonales
       CrosswalkTrafficLight placeresCrosswalk = new CrosswalkTrafficLight(6,4,525,475);
@@ -33,30 +29,20 @@ public class TestStage3 {
       myPanel.addView(PlaceresTrafficLight);   
       
       //Botones de requerimiento
-      final DetectorRequerimiento boton_plac= new DetectorRequerimiento();
-      final DetectorRequerimiento sensorInductivo = new DetectorRequerimiento();
-
+      ButtonPanel.add(Box.createRigidArea(new Dimension(280,0)));
+      final GiroDetectorRequerimiento sensorInductivo = new GiroDetectorRequerimiento(ButtonPanel);
+      ButtonPanel.add(Box.createRigidArea(new Dimension(90,0)));
+      final PeatonalDetectorRequerimiento boton_plac= new PeatonalDetectorRequerimiento(ButtonPanel);
+      ButtonPanel.add(Box.createRigidArea(new Dimension(10,0)));
 
       Controller controller = new Controller(mattaTrafficLight, placeresCrosswalk, PlaceresTrafficLight, placeresTurnLight, boton_plac, sensorInductivo);
             
       SwingUtilities.invokeLater(new Runnable() { // implementación Swing recomendada
          public void run() {
-            JButton boton_placeres = new JButton("Peaton_Placeres");
-            JButton giro_placeres = new JButton("Solicitud de Giro");
             MyOwnFrame frame = new MyOwnFrame(myPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(boton_placeres,BorderLayout.SOUTH);
-            boton_placeres.addActionListener(new ActionListener(){
-               public void actionPerformed(ActionEvent e){
-                  boton_plac.setOn();
-               }
-            });
-            frame.add(giro_placeres,BorderLayout.NORTH);
-            giro_placeres.addActionListener(new ActionListener(){
-               public void actionPerformed(ActionEvent e){
-                  sensorInductivo.setOn();
-               }
-            });
+            frame.setResizable(false);
+            frame.add(ButtonPanel,BorderLayout.SOUTH);   
             frame.setVisible(true);
          } // run ends
       });
@@ -78,7 +64,7 @@ class MyOwnFrame extends JFrame  {
    }
 
    public static final int DEFAULT_WIDTH = 800;
-   public static final int DEFAULT_HEIGHT = 640;  
+   public static final int DEFAULT_HEIGHT = 840;  
 }
 
 /**

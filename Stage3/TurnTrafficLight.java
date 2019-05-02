@@ -30,10 +30,12 @@ public class TurnTrafficLight extends TrafficLight implements ActionListener, Vi
                     g2d.fill(green_view);
                     break;
          case TRANSITION: if (!timer.isRunning()) timer.start();
-                          if(green_on)
-                             g2d.setColor(Color.GREEN); 
-                          g2d.fill(green_view);
-                          break;
+                           g2d.setColor(Color.GRAY);
+                           g2d.fill(green_view);
+                           if(green_on)
+                              g2d.setColor(Color.GREEN); 
+                           g2d.fill(green_view);
+                           break; 
          case FOLLOW: g2d.setColor(Color.GREEN); 
                       g2d.fill(green_view);
       }        

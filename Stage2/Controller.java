@@ -61,7 +61,13 @@ public class Controller {
             currentGreenTime = 1;
          }
          else if ((currentYellowTime < matta.getTransitionTime())&&(matta.getState()==TrafficLightState.TRANSITION)){
-            currentYellowTime += 1;
+            if (botonplaceres.isOn()){
+               botonplaceres.setOff();
+               currentYellowTime += 1;
+            }
+            else{
+               currentYellowTime += 1;
+            }
          }
          else if ((currentYellowTime == matta.getTransitionTime())&&(matta.getState()==TrafficLightState.TRANSITION)){
             pedestrianPlaceres.turnStop();
@@ -73,10 +79,8 @@ public class Controller {
          else{
             System.out.println("Caimos en un estado fantasma del controlador de semáforos!");
          }
-         //System.out.println(counter+"\t"+pedestrianPlaceres+"\t"+pedestrianMatta+"\t"+giro+"\t"+placeresvalpo+"\t"+placeresvalpo+"\t"+matta+"\t");      
          try{
             Thread.sleep(1000); //Si no hay requerimiento, se espera un segundo
-            //counter = counter + 1;  //Se agrega el tiempo transcurrido al contador
          } catch(InterruptedException e){
             System.out.println(e);
         }    
