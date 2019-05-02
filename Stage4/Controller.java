@@ -12,6 +12,7 @@ public class Controller {
    public Controller(TrafficLight matta, TrafficLight pedestrianPlaceres, TrafficLight pedestrianMatta, TrafficLight placeresvalpo, TrafficLight placeresvina, TrafficLight giro, DetectorRequerimiento botonplaceres, DetectorRequerimiento botonmatta, DetectorRequerimiento sensorInductivo) {
       this.matta = matta;
       this.pedestrianPlaceres = pedestrianPlaceres;
+      this.pedestrianMatta = pedestrianMatta;
       this.placeresvalpo = placeresvalpo;
       this.placeresvina = placeresvina;
       this.giro = giro;
@@ -25,7 +26,7 @@ public class Controller {
       matta.turnStop();
       placeresvalpo.turnFollow();
       placeresvina.turnFollow();
-      giro.turnFollow();
+      giro.turnStop();
       sensorInductivo.setOff();
       botonmatta.setOff();
       botonplaceres.setOff();
@@ -48,7 +49,6 @@ public class Controller {
             }
             else if ((currentGreenTime == placeresvina.getFollowTime())&&(placeresvina.getState()==TrafficLightState.FOLLOW)){
                placeresvina.turnTransition();
-               pedestrianMatta.turnTransition();
                if(sensorInductivo.isOn()){
                   serving_sensorInductivo = true;
                   currentGreenTime = 1;
@@ -62,7 +62,13 @@ public class Controller {
                if (serving_botonmatta){
                   pedestrianMatta.turnTransition();
                }
-               currentYellowTime += 1;
+               if (botonmatta.isOn()){
+                  botonmatta.setOff();
+                  currentYellowTime += 1;
+               }
+               else{
+                  currentYellowTime += 1;
+               }
             }
             else if ((currentYellowTime == placeresvina.getTransitionTime())&&(placeresvina.getState()==TrafficLightState.TRANSITION)){
                if ((botonplaceres.isOn())&&(!serving_sensorInductivo)){
@@ -70,10 +76,14 @@ public class Controller {
                   serving_botonplaceres = true;
                   pedestrianPlaceres.turnFollow();
                }
-               pedestrianMatta.turnStop();
-               serving_botonmatta = false;
-               placeresvina.turnStop();
-               
+               if (serving_botonmatta){
+                  pedestrianMatta.turnStop();
+                  serving_botonmatta = false;
+                  }               
+               if (botonmatta.isOn()){
+                  botonmatta.setOff();
+                  currentYellowTime = 1;
+               }
                if(serving_sensorInductivo){
                   giro.turnFollow();
                   currentYellowTime = 1;
@@ -83,6 +93,7 @@ public class Controller {
                   placeresvalpo.turnStop();
                   currentYellowTime = 1;
                }
+               placeresvina.turnStop();
             }
 
             ////Parte del semaforo de giro, ojo que se sincroniza con sem placeres a valpo
@@ -98,7 +109,7 @@ public class Controller {
                currentYellowTime += 1;
             }
             else if ((currentYellowTime == placeresvalpo.getTransitionTime())&&(placeresvalpo.getState()==TrafficLightState.TRANSITION)&&(serving_sensorInductivo)){
-               if (botonplaceres.isOn()&&(!serving_sensorInductivo)){
+               if (botonplaceres.isOn()){
                   botonplaceres.setOff();
                   serving_botonplaceres = true;
                   pedestrianPlaceres.turnFollow();
@@ -106,6 +117,7 @@ public class Controller {
                matta.turnFollow();
                placeresvalpo.turnStop();
                giro.turnStop();
+               sensorInductivo.setOff();
                serving_sensorInductivo = false;
                currentGreenTime = 1;
                currentYellowTime = 1;
@@ -128,11 +140,19 @@ public class Controller {
             }
             else if ((currentGreenTime == matta.getFollowTime())&&(matta.getState()==TrafficLightState.FOLLOW)){
                matta.turnTransition();
-               pedestrianPlaceres.turnTransition();
+               if (serving_botonplaceres){
+                  pedestrianPlaceres.turnTransition();
+               }
                currentGreenTime = 1;
             }
             else if ((currentYellowTime < matta.getTransitionTime())&&(matta.getState()==TrafficLightState.TRANSITION)){
-               currentYellowTime += 1;
+               if (botonplaceres.isOn()){
+                  botonplaceres.setOff();
+                  currentYellowTime += 1;
+               }
+               else{
+                  currentYellowTime += 1;
+               }
             }
             else if ((currentYellowTime == matta.getTransitionTime())&&(matta.getState()==TrafficLightState.TRANSITION)){
                if(botonmatta.isOn()){
@@ -140,8 +160,14 @@ public class Controller {
                   serving_botonmatta = true;
                   pedestrianMatta.turnFollow();
                }
-               pedestrianPlaceres.turnStop();
-               serving_botonplaceres = false;
+               if (serving_botonplaceres){
+                  pedestrianPlaceres.turnStop();
+                  serving_botonplaceres = false;
+               }
+               if (botonplaceres.isOn()){
+                  botonplaceres.setOff();
+                  currentYellowTime += 1;
+               }
                matta.turnStop();
                placeresvina.turnFollow();
                placeresvalpo.turnFollow();

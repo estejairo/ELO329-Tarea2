@@ -56,6 +56,8 @@ CLASSES = TestStage3.java \
           CrosswalkTrafficLight.java \
           StreetTrafficLight.java \
           DetectorRequerimiento.java \
+          GiroDetectorRequerimiento.java \
+          PeatonalDetectorRequerimiento.java \
           View.java
 
 
