@@ -4,7 +4,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.JPanel;
 
+/**
+ * This class puts the button correspoonding to the inductive sensor in the graphic interface
+ */
 public class GiroDetectorRequerimiento extends DetectorRequerimiento{
+
+    /**
+     * GiroDetectorRequerimiento constructor
+     * @param myPanel is the JPanel object to use
+     */
     public GiroDetectorRequerimiento(JPanel myPanel){;
         this.panel = myPanel;
         offInductor = new ImageIcon("OffInductor.png");
@@ -22,12 +30,21 @@ public class GiroDetectorRequerimiento extends DetectorRequerimiento{
          });
         
     }
-
+	
+    /**
+     * Changes the button appearance when it's pressen on
+     * and also the state
+     */
     public void setOn(){
         state = true;
         offInductor.setImage(onInductorImage);
         boton.repaint();
     }
+
+    /**
+     * Changes the button appearance when it is pressed off
+     * and also the state
+     */
     public void setOff(){
         state = false;
         offInductor.setImage(offInductorImage);

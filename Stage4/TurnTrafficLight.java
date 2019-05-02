@@ -5,11 +5,19 @@ import java.awt.event.*;
 import javax.swing.*;
 /**
    This class represents a possible traffic light view.
-   In this case, it corresponds to a pedestrian crosswalk traffic light 
-   (red, green, and green blinking light)
+   In this case, it corresponds to a pedestrian crosswalk traffic light (red, green, and green blinking light)
 */
 public class TurnTrafficLight extends TrafficLight implements ActionListener, View{
-   public TurnTrafficLight (int ft, int tt, int posx,int posy) {
+  
+ /**
+ * TurnTrafficLigth constructor
+ * @param ft is follow time  
+ * @param tt is transition time
+ * @param posx is the x coordinate of the origin of the traffic light
+ * @param posy is the y coordinate of the origin of the traffic light
+ */
+
+  public TurnTrafficLight (int ft, int tt, int posx,int posy) {
       super(ft, tt);
       this.origen_x=posx;
       this.origen_y=posy;
@@ -21,6 +29,10 @@ public class TurnTrafficLight extends TrafficLight implements ActionListener, Vi
       timer = new Timer(ON_OFF_TIME, this);
       green_on=false; 
    }
+
+  /**
+   * Paints green ligth to turn it on/off
+   */
    public void paint_view (Graphics2D g2d) {
       g2d.setColor(Color.BLACK);
       g2d.fill(cabinet);
@@ -40,6 +52,11 @@ public class TurnTrafficLight extends TrafficLight implements ActionListener, Vi
                       g2d.fill(green_view);
       }        
    }
+
+   /**
+    *Turns  green ligth on and off repeatedly 
+    *to make it blink in transition state
+    */
    public void actionPerformed (ActionEvent event) {
       green_on = !green_on;
       panel.repaint();      

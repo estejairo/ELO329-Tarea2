@@ -8,6 +8,14 @@ import javax.swing.*;
    (standard red, green, and yellow light)
 */
 public class StreetTrafficLight extends TrafficLight implements View {
+
+   /**
+    * StreetTrafficLight constructor
+    * @param ft is follow time
+    * @param tt is transition time
+    * @param posx is the x coordinate of the origin of the traffic light
+    * @param posy is the y coordinate od the origin of the traffic light
+    */
    public StreetTrafficLight (int ft, int tt, int posx, int posy) {
       super(ft, tt);
       this.origen_x=posx;
@@ -19,6 +27,10 @@ public class StreetTrafficLight extends TrafficLight implements View {
       cabinet = cabinet.createUnion(yellow_view.getFrame());
       cabinet = cabinet.createUnion(green_view.getFrame());
    }  
+
+   /**
+    * Paints the traffic ligths turning each light on and off accordingly
+    */
    public void paint_view (Graphics2D g2d) {
       g2d.setColor(Color.BLACK);
       g2d.fill(cabinet);
@@ -47,10 +59,17 @@ public class StreetTrafficLight extends TrafficLight implements View {
                   g2d.fill(green_view);
       }        
    }
+
+   /**
+    * Sets position of the traffic ligth
+    * @param x is the x coordinate of the origin of the traffic light
+    * @param y is the y coordinate of the origin of the traffic light
+   */
    public void set_pos_trafficlight(int x, int y){
       this.origen_x=x;
       this.origen_y=y;
    }
+
    private TrafficLight model;
    private Ellipse2D red_view, yellow_view, green_view;
    private Rectangle2D cabinet;

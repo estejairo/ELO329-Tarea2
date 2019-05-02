@@ -4,7 +4,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.JPanel;
 
+/**
+ * This class puts the pedestrian buttons in the graphic interface
+ */
 public class PeatonalDetectorRequerimiento extends DetectorRequerimiento{
+
+    /**
+     * PeatonalDetectorRequerimientoconstructor
+     * @param mypanel is a JPanel object to use
+     */
     public PeatonalDetectorRequerimiento(JPanel myPanel){;
         this.panel = myPanel;
         offButton = new ImageIcon("OffButton.png");
@@ -23,11 +31,20 @@ public class PeatonalDetectorRequerimiento extends DetectorRequerimiento{
         
     }
 
+    /**
+     * Changes the button appearance when it's pressed on
+     * and the state
+     */
     public void setOn(){
         state = true;
         offButton.setImage(onButtonImage);
         boton.repaint();
     }
+
+    /**
+     * Changes the button appearance when it's pressed off
+     * and the state
+     */
     public void setOff(){
         state = false;
         offButton.setImage(offButtonImage);

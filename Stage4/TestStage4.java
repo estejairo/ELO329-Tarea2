@@ -7,7 +7,16 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
+/**
+ * This is a class to test the project
+ * and run the whole code
+ */
 public class TestStage4 {  
+
+   /**
+    * Main method in which traffic ligth, request detector an controller objects are created.
+    * Starts simulation
+    */
    public static void main(String[] args) {
 //    MyOwnPanel myPanel = new MyOwnPanel();
       final MyOwnPanel myPanel = new MyOwnPanel();  // aragorn java compiler requires final for myPanel
@@ -89,16 +98,22 @@ class MyOwnPanel extends JPanel  {
       views.add(v);
       v.setPanel(this);
    }
+
+   /**
+    * Draws streets and crosswalks 
+    */
    public void paintComponent(Graphics g)   {  
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D)g; // For historical reasons, this method
       for (View v: views){     // has Graphics as parameter, but now an intance
          v.paint_view(g2);   // of a subclass of Graphics, instance of Graphics2D,
       }                      // is passed as argument.
+     
       //calle mata abajo
       g2.setColor(Color.BLACK);
       g2.setStroke(new BasicStroke(5));
       g2.drawLine(0, 400, 200, 400);
+      
       //calle mata arriba
       g2.setColor(Color.BLACK);
       g2.setStroke(new BasicStroke(5));
@@ -108,7 +123,7 @@ class MyOwnPanel extends JPanel  {
       g2.setStroke(new BasicStroke(5));
       g2.setColor(Color.BLACK);
       g2.drawLine(500, 50, 500, 600);
-
+      
       //linea placeres izq arriba
       g2.setStroke(new BasicStroke(5));
       g2.setColor(Color.BLACK);
@@ -120,7 +135,8 @@ class MyOwnPanel extends JPanel  {
       for (int i = 0; i<5;i++){
          g2.setColor(Color.BLACK);
          g2.setStroke(new BasicStroke(3));
-         g2.drawLine(250+50*i, 475, 250+50*i, 575);
+        g2.drawLine(250+50*i, 475, 250+50*i, 575);
+        g2.drawLine(55, 220+40*i, 140, 220+40*i);
       }
    }
    private ArrayList<View> views;

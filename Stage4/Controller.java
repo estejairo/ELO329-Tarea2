@@ -1,3 +1,7 @@
+/**
+ * Class to manage all the traffic lights
+ */
+
 public class Controller {
    private TrafficLight pedestrianPlaceres, pedestrianMatta, matta, placeresvalpo, placeresvina, giro;
    int currentGreenTime = 1;
@@ -9,6 +13,19 @@ public class Controller {
    boolean serving_botonmatta = false;
    boolean serving_sensorInductivo = false;
 
+   /**
+    * Controller constructor
+    * @param matta is the Matta Av. traffic light
+    * @param pedestrianPlaceres is the Placeres Av. pedestrian traffic light
+    * @param pedestrianMatta is the Matta Av. pedestrian traffic light
+    * @param placeresvalpo is the Placeres Av. traffic light for cars going to valparaiso
+    * @param placeresvina is the Placeres Av. traffic light for cars going to vina
+    * @param giro is the traffic light for turning from Placeres Av. to Matta Av.
+    * @param bottonplaceres is the button for pedestrians to press if they want to cross Placeres Av.
+    * @param botonmatta is the button for pedestrians to press if they want to cross Matta Av.
+    * @param sensorInductivo is the inductive sensor that detects cars wanting to turn from Placeres Av to Matta Av
+    
+    */
    public Controller(TrafficLight matta, TrafficLight pedestrianPlaceres, TrafficLight pedestrianMatta, TrafficLight placeresvalpo, TrafficLight placeresvina, TrafficLight giro, DetectorRequerimiento botonplaceres, DetectorRequerimiento botonmatta, DetectorRequerimiento sensorInductivo) {
       this.matta = matta;
       this.pedestrianPlaceres = pedestrianPlaceres;
@@ -30,7 +47,12 @@ public class Controller {
       sensorInductivo.setOff();
       botonmatta.setOff();
       botonplaceres.setOff();
-   }   
+   }  
+
+  /**
+   * Manages traffic lights according to requiremnts 
+   * (if non, just regular timing)
+   */ 
       public void manageTraffic(){
          while(true){
             if ( (currentGreenTime < placeresvina.getFollowTime()) && (placeresvina.getState()==TrafficLightState.FOLLOW) ){
