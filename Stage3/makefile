@@ -48,21 +48,22 @@ FILE=
 # is understood as
 # NAME = Camilo        Juan
 
-CLASSES = TestStage2.java \
+CLASSES = TestStage3.java \
           Controller.java \
           TrafficLight.java \
           TrafficLightState.java \
+          TurnTrafficLight.java \
           CrosswalkTrafficLight.java \
           StreetTrafficLight.java \
           DetectorRequerimiento.java \
-          PeatonalDetectorRequerimiento.java \
           View.java
+
 
 #
 # MAIN is a variable with the name of the file containing the main method
 # Be careful, do not append any blank space after the class name.
 
-MAIN = TestStage2
+MAIN = TestStage3
 
 #
 # the default make target entry

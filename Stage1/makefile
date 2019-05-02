@@ -48,7 +48,7 @@ FILE=
 # is understood as
 # NAME = Camilo        Juan
 
-CLASSES = TwoTrafficLightsExample.java \
+CLASSES = TestStage1.java \
           Controller.java \
           TrafficLight.java \
           TrafficLightState.java \
