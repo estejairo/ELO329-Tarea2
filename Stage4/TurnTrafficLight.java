@@ -1,3 +1,11 @@
+/**
+   @version 1.00 2019-04-18
+   @author Paula Amigo
+   @author Luis Bahamondes
+   @author Jairo Gonzalez  
+
+*/
+
 import java.awt.*;
 import java.awt.geom.*;
 //import java.util.*;

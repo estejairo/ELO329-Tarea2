@@ -1,4 +1,11 @@
 /**
+   @version 1.00 2019-05-03
+   @author Paula Amigo
+   @author Luis Bahamondes
+   @author Jairo Gonzalez
+*/
+
+/**
  * Class to manage all the traffic lights
  */
 

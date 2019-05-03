@@ -1,3 +1,10 @@
+/**
+   @version 1.0 2019-05-03
+   @author Paula Amigo
+   @author Luis Bahamondes
+   @author Jairo Gonzalez
+*/
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
@@ -13,7 +20,7 @@ public class PeatonalDetectorRequerimiento extends DetectorRequerimiento{
      * PeatonalDetectorRequerimientoconstructor
      * @param mypanel is a JPanel object to use
      */
-    public PeatonalDetectorRequerimiento(JPanel myPanel){;
+    public PeatonalDetectorRequerimiento(JPanel myPanel){
         this.panel = myPanel;
         offButton = new ImageIcon("OffButton.png");
         offButtonImage = offButton.getImage();
@@ -60,3 +67,4 @@ public class PeatonalDetectorRequerimiento extends DetectorRequerimiento{
     private int origen_y=50;
 
 }
+
