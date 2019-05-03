@@ -26,8 +26,11 @@ java TestStage1<br>
 Stage 2:<br>
 java TestStage2 <br>
 
-Stage 4:<br>
+Stage 3:<br>
 java TestStage3 <br>
+
+Stage 4:<br>
+java TestStage4 <br>
 
 ## Autores
 
